@@ -5,6 +5,8 @@ import safe.repository.UserRepository;
 import safe.repository.UserRepositoryImpl;
 import safe.service.UserService;
 
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
         User user = new User(1, "test@gmail.com", "123");
@@ -15,9 +17,8 @@ public class Main {
 
         service.createTableUsers();
 //        service.createUser(user2);
-        service.printAllUsers();
 
-
+        System.out.println(service.findAll());
 
     }
 }

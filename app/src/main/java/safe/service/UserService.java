@@ -1,9 +1,9 @@
 package safe.service;
 
-import safe.Dto.LoginDTO;
 import safe.domain.User;
 import safe.repository.UserRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public class UserService {
@@ -22,8 +22,8 @@ public class UserService {
         userRepository.createTableUsers();
     }
 
-    public Optional<User> printAllUsers() {
-        return userRepository.printAllUsers();
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 
 }

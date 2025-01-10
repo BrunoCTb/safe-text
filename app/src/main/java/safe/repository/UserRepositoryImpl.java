@@ -4,6 +4,8 @@ import safe.database.SqliteConfig;
 import safe.domain.User;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -42,8 +44,9 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Optional<User> printAllUsers() {
+    public List<User> findAll() {
         String sql = "SELECT * from users;";
+        List<User> allUsers = new ArrayList<>();
 
         try (Connection connection = SqliteConfig.connection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -53,10 +56,11 @@ public class UserRepositoryImpl implements UserRepository {
                 int id = data.getInt("id");
                 String email = data.getString("email");
                 String password = data.getString("password");
-                System.out.println(id + " | " + email + " | " + password);
+                User user = new User(id, email, password);
+                allUsers.add(user);
             }
 
-            return null;
+            return allUsers;
         } catch (SQLException ex) {
             return null;
         }
