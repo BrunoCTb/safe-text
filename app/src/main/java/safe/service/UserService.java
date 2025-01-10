@@ -26,4 +26,8 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
 }

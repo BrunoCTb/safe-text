@@ -66,5 +66,26 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
+    @Override
+    public Optional<User> findByEmail(String email) {
+        try (Connection connection = SqliteConfig.connection()) {
+            String sql = "SELECT * FROM users WHERE email = '" + email + "'";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet data = preparedStatement.executeQuery();
+
+            if (!data.next()) { return Optional.empty(); }
+
+            int id = data.getInt("id");
+            String login = data.getString("email");
+            String password = data.getString("password");
+            return Optional.of(new User(id, login, password));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Optional.empty();
+        }
+    }
+
 
 }

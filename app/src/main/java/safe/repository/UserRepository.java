@@ -12,4 +12,7 @@ public interface UserRepository{
     void addUser(User user);
 
     List<User> findAll();
+
+    Optional<User> findByEmail(String email);
+
 }
