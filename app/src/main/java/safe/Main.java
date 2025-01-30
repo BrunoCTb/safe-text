@@ -5,6 +5,7 @@ import safe.repository.UserRepository;
 import safe.repository.UserRepositoryImpl;
 import safe.service.UserService;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -19,6 +20,9 @@ public class Main {
 
         userService.createTableUsers();
 
+        List<User> all = userService.findAll();
+        System.out.println(all);
+
         System.out.println("=== Log In ===");
 
         String email;
@@ -28,9 +32,7 @@ public class Main {
             System.out.print("Senha: ");
             String password = input.next();
 
-            Optional<User> userFound = userService.findByEmail(email);
-
-            if (userFound.isPresent() && userFound.get().getPassword().equals(password)) {
+            if (userService.loginIsValid(email, password)) {
                 break;
             }
 
