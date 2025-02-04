@@ -20,4 +20,9 @@ public class SafeNoteService {
     public Optional<SafeNote> findById(Integer id) {
         return safeNoteRepository.findById(id);
     }
+
+    public void save(SafeNote safeNote) {
+        safeNoteRepository.addSafeNote(safeNote);
+    }
+
 }

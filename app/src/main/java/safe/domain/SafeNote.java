@@ -40,6 +40,21 @@ public class SafeNote {
         this.userId = userId;
     }
 
+    @Override
+    public String toString() {
+        return "SafeNote{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", tags='" + tags + '\'' +
+                ", type='" + type + '\'' +
+                ", isEncrypted=" + isEncrypted +
+                ", userId=" + userId +
+                '}';
+    }
+
     public Integer getId() {
         return id;
     }

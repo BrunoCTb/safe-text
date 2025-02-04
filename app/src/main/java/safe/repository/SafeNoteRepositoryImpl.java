@@ -39,7 +39,7 @@ public class SafeNoteRepositoryImpl implements SafeNoteRepository{
     @Override
     public void addSafeNote(SafeNote safeNote) {
         String sql = """
-                INSERT INTO users (id, title, content, created_at, updated_at, tags, type, isEncrypted, user_id) VALUES 
+                INSERT INTO safe_note (id, title, content, created_at, updated_at, tags, type, isEncrypted, user_id) VALUES 
                 (?, ?, ?, ?, ?, ?, ?, ?, ?);
                 """;
         try (Connection connection = SqliteConfig.connection()) {
@@ -49,6 +49,7 @@ public class SafeNoteRepositoryImpl implements SafeNoteRepository{
 
             preparedStatement.setInt(1, safeNote.getId());
             preparedStatement.setString(2, safeNote.getTitle());
+            preparedStatement.setString(3, safeNote.getContent());
             preparedStatement.setTimestamp(4, Timestamp.valueOf(safeNote.getCreatedAt()));
             preparedStatement.setTimestamp(5, Timestamp.valueOf(safeNote.getUpdatedAt()));
             preparedStatement.setString(6, safeNote.getTags());
