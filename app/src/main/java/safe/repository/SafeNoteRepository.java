@@ -8,8 +8,7 @@ public interface SafeNoteRepository {
 
     void createTableSafeNote();
 
-    void addSafeNote();
+    void addSafeNote(SafeNote safeNote);
 
-    Optional<SafeNote> findById();
-
+    Optional<SafeNote> findById(Integer id);
 }

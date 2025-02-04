@@ -1,7 +1,6 @@
 package safe.domain;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class SafeNote {
 
@@ -12,13 +11,16 @@ public class SafeNote {
     private LocalDateTime updatedAt;
 
     // optional
-    private List<String> tags;
+    private String tags;
     private String type;
     private boolean isEncrypted;
 
     private Integer userId;
 
-    public SafeNote(String title, String content, List<String> tags, String type, boolean isEncrypted) {
+    public SafeNote() {
+    }
+
+    public SafeNote(String title, String content, String tags, String type, boolean isEncrypted) {
         this.title = title;
         this.content = content;
         this.tags = tags;
@@ -26,7 +28,7 @@ public class SafeNote {
         this.isEncrypted = isEncrypted;
     }
 
-    public SafeNote(Integer id, String title, String content, LocalDateTime createdAt, LocalDateTime updatedAt, List<String> tags, String type, boolean isEncrypted, Integer userId) {
+    public SafeNote(Integer id, String title, String content, LocalDateTime createdAt, LocalDateTime updatedAt, String tags, String type, boolean isEncrypted, Integer userId) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -78,11 +80,11 @@ public class SafeNote {
         this.updatedAt = updatedAt;
     }
 
-    public List<String> getTags() {
+    public String getTags() {
         return tags;
     }
 
-    public void setTags(List<String> tags) {
+    public void setTags(String tags) {
         this.tags = tags;
     }
 

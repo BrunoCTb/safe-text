@@ -74,18 +74,16 @@ public class UserRepositoryImpl implements UserRepository {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet data = preparedStatement.executeQuery();
 
-            if (!data.next()) { return Optional.empty(); }
+            if (data.next()) {
+                int id = data.getInt("id");
+                String password = data.getString("password");
 
-            int id = data.getInt("id");
-            String login = data.getString("email");
-            String password = data.getString("password");
-            return Optional.of(new User(id, login, password));
-
+                return Optional.of(new User(id, email, password));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-            return Optional.empty();
         }
+
+        return Optional.empty();
     }
-
-
 }
