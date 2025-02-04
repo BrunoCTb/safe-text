@@ -1,11 +1,16 @@
 package safe;
 
 import safe.cli.MenuCLI;
+import safe.domain.SafeNote;
 import safe.domain.User;
+import safe.repository.SafeNoteRepository;
+import safe.repository.SafeNoteRepositoryImpl;
 import safe.repository.UserRepository;
 import safe.repository.UserRepositoryImpl;
+import safe.service.SafeNoteService;
 import safe.service.UserService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -22,13 +27,11 @@ public class Main {
         UserRepository userRepository = new UserRepositoryImpl();
         UserService userService = new UserService(userRepository);
 
+        SafeNoteRepository safeNoteRepository = new SafeNoteRepositoryImpl();
+        SafeNoteService safeNoteService = new SafeNoteService(safeNoteRepository);
+
         userService.createTableUsers();
-
-        // visualizacao
-        List<User> all = userService.findAll();
-        System.out.println(all);
-        //
-
+        safeNoteService.createTableSafeNote();
 
         while (true) {
             // caso nao esteja logado
