@@ -20,6 +20,17 @@ public class SafeNote {
     public SafeNote() {
     }
 
+    public SafeNote(String title, String content, LocalDateTime createdAt, LocalDateTime updatedAt, String tags, String type, boolean isEncrypted, Integer userId) {
+        this.title = title;
+        this.content = content;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.tags = tags;
+        this.type = type;
+        this.isEncrypted = isEncrypted;
+        this.userId = userId;
+    }
+
     public SafeNote(String title, String content, String tags, String type, boolean isEncrypted) {
         this.title = title;
         this.content = content;

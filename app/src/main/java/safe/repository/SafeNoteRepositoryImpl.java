@@ -39,23 +39,22 @@ public class SafeNoteRepositoryImpl implements SafeNoteRepository{
     @Override
     public void addSafeNote(SafeNote safeNote) {
         String sql = """
-                INSERT INTO safe_note (id, title, content, created_at, updated_at, tags, type, isEncrypted, user_id) VALUES 
-                (?, ?, ?, ?, ?, ?, ?, ?, ?);
+                INSERT INTO safe_note (title, content, created_at, updated_at, tags, type, isEncrypted, user_id) VALUES 
+                (?, ?, ?, ?, ?, ?, ?, ?);
                 """;
         try (Connection connection = SqliteConfig.connection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             Timestamp timestamp = Timestamp.valueOf(safeNote.getCreatedAt());
 
-            preparedStatement.setInt(1, safeNote.getId());
-            preparedStatement.setString(2, safeNote.getTitle());
-            preparedStatement.setString(3, safeNote.getContent());
-            preparedStatement.setTimestamp(4, Timestamp.valueOf(safeNote.getCreatedAt()));
-            preparedStatement.setTimestamp(5, Timestamp.valueOf(safeNote.getUpdatedAt()));
-            preparedStatement.setString(6, safeNote.getTags());
-            preparedStatement.setString(7, safeNote.getType());
-            preparedStatement.setBoolean(8, safeNote.isEncrypted());
-            preparedStatement.setInt(9, safeNote.getUserId());
+            preparedStatement.setString(1, safeNote.getTitle());
+            preparedStatement.setString(2, safeNote.getContent());
+            preparedStatement.setTimestamp(3, Timestamp.valueOf(safeNote.getCreatedAt()));
+            preparedStatement.setTimestamp(4, Timestamp.valueOf(safeNote.getUpdatedAt()));
+            preparedStatement.setString(5, safeNote.getTags());
+            preparedStatement.setString(6, safeNote.getType());
+            preparedStatement.setBoolean(7, safeNote.isEncrypted());
+            preparedStatement.setInt(8, safeNote.getUserId());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

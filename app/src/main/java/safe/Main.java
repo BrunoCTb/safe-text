@@ -1,6 +1,7 @@
 package safe;
 
 import safe.cli.MenuCLI;
+import safe.cli.SafeNoteForm;
 import safe.domain.SafeNote;
 import safe.domain.User;
 import safe.repository.SafeNoteRepository;
@@ -50,11 +51,31 @@ public class Main {
 
                 System.out.println("Login ou senha inválidos!te");
             }
-            // caso logado
-            System.out.println("\n\n\n\n\n\n\n\n<==== Olá! " + userLogged + " ====>");
-            MenuCLI.mainMenu();
-            input.next();
 
+            // caso logado
+            System.out.println("\n\n\n\n\n\n\n\nOlá! " + userLogged + "");
+            MenuCLI.mainMenu();
+            int mainMenuOpt = input.nextInt();
+
+            switch (mainMenuOpt) {
+                case 1:
+                    SafeNoteForm safeNoteForm = new SafeNoteForm();
+                    SafeNote safeNoteCreated = safeNoteForm.createSafeNoteForm();
+                    // setar user que criou a safe note
+                    User user = userService.findByEmail(userLogged).get();
+                    safeNoteCreated.setUserId(user.getId());
+                    safeNoteService.save(safeNoteCreated);
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                default:
+                    System.out.println("Opção inválida");
+                    break;
+            }
         }
     }
 }
