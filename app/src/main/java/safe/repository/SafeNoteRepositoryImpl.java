@@ -6,6 +6,8 @@ import safe.domain.User;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class SafeNoteRepositoryImpl implements SafeNoteRepository{
@@ -71,17 +73,7 @@ public class SafeNoteRepositoryImpl implements SafeNoteRepository{
             ResultSet safeNoteData = preparedStatement.executeQuery();
 
             if (safeNoteData.next()) {
-                String title = safeNoteData.getString("title");
-                String content = safeNoteData.getString("content");
-                LocalDateTime createdAt = safeNoteData.getTimestamp("created_at").toLocalDateTime();
-                LocalDateTime updatedAt = safeNoteData.getTimestamp("updated_at").toLocalDateTime();
-                String tags = safeNoteData.getString("tags");
-                String type = safeNoteData.getString("type");
-                boolean isEncrypted = safeNoteData.getBoolean("isEncrypted");
-                Integer userId = safeNoteData.getInt("user_id");
-
-                SafeNote safeNote = new SafeNote(id, title, content, createdAt, updatedAt,
-                        tags, type, isEncrypted, userId);
+                SafeNote safeNote = this.getSafeNoteFromResultSet(safeNoteData);
 
                 return Optional.of(safeNote);
             }
@@ -91,4 +83,42 @@ public class SafeNoteRepositoryImpl implements SafeNoteRepository{
 
         return Optional.empty();
     }
+
+    @Override
+    public List<SafeNote> findByUserId(Integer userId) {
+        List<SafeNote> safeNotes = new ArrayList<>();
+        String sql = "SELECT * FROM safe_note WHERE user_id=" + userId;
+
+        try (Connection connection = SqliteConfig.connection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet safeNoteData = preparedStatement.executeQuery();
+
+            while (safeNoteData.next()) {
+                SafeNote sn = getSafeNoteFromResultSet(safeNoteData);
+                safeNotes.add(sn);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return safeNotes;
+    }
+
+    private SafeNote getSafeNoteFromResultSet(ResultSet safeNoteData) throws SQLException {
+        Integer id = safeNoteData.getInt("id");
+        String title = safeNoteData.getString("title");
+        String content = safeNoteData.getString("content");
+        LocalDateTime createdAt = safeNoteData.getTimestamp("created_at").toLocalDateTime();
+        LocalDateTime updatedAt = safeNoteData.getTimestamp("updated_at").toLocalDateTime();
+        String tags = safeNoteData.getString("tags");
+        String type = safeNoteData.getString("type");
+        boolean isEncrypted = safeNoteData.getBoolean("isEncrypted");
+        Integer userId = safeNoteData.getInt("user_id");
+
+        SafeNote safeNote = new SafeNote(id, title, content, createdAt, updatedAt,
+                tags, type, isEncrypted, userId);
+
+        return safeNote;
+    }
+
 }

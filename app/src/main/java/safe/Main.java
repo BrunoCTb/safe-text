@@ -11,9 +11,7 @@ import safe.repository.UserRepositoryImpl;
 import safe.service.SafeNoteService;
 import safe.service.UserService;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 
 public class Main {
@@ -57,16 +55,22 @@ public class Main {
             MenuCLI.mainMenu();
             int mainMenuOpt = input.nextInt();
 
+            // opcoes do menu principal
             switch (mainMenuOpt) {
-                case 1:
+                case 1: // criar safe note (mandar para um form)
                     SafeNoteForm safeNoteForm = new SafeNoteForm();
                     SafeNote safeNoteCreated = safeNoteForm.createSafeNoteForm();
                     // setar user que criou a safe note
-                    User user = userService.findByEmail(userLogged).get();
+                    User user = userService.findByEmail(userLogged).get(); // quem ta logado
                     safeNoteCreated.setUserId(user.getId());
                     safeNoteService.save(safeNoteCreated);
                     break;
-                case 2:
+                case 2: // visualizar as safe notes
+                    user = userService.findByEmail(userLogged).get();
+                    List<SafeNote> byUserId = safeNoteService.findByUserId(user.getId());
+                    for (SafeNote sn : byUserId) {
+                        System.out.println(sn);
+                    }
                     break;
                 case 3:
                     break;

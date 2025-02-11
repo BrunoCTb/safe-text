@@ -3,6 +3,7 @@ package safe.service;
 import safe.domain.SafeNote;
 import safe.repository.SafeNoteRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public class SafeNoteService {
@@ -23,6 +24,10 @@ public class SafeNoteService {
 
     public void save(SafeNote safeNote) {
         safeNoteRepository.addSafeNote(safeNote);
+    }
+
+    public List<SafeNote> findByUserId(Integer userId) {
+        return safeNoteRepository.findByUserId(userId);
     }
 
 }
