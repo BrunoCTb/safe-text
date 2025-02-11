@@ -38,16 +38,13 @@ public class Main {
             while (!isLog) {
                 System.out.println("=== Log In ===");
                 System.out.print("Login: ");
-                String email = input.next();
+                String email = input.nextLine();
                 System.out.print("Senha: ");
-                String password = input.next();
+                String password = input.nextLine();
 
                 if (userService.loginIsValid(email, password)) {
                     isLog = true;
-
                     currentUser = userService.findByEmail(email).get();
-
-
                     break;
                 }
 
@@ -55,13 +52,13 @@ public class Main {
             }
 
             // caso logado
-            System.out.println("\n\n\n\n\n\n\n\nOlá! " + currentUser.getEmail() + "");
+            System.out.println("\n\n\n\n\n\nOlá! " + currentUser.getEmail() + "");
             MenuCLI.mainMenu();
-            int mainMenuOpt = input.nextInt();
+            String mainMenuOpt = input.nextLine();
 
             // opcoes do menu principal
             switch (mainMenuOpt) {
-                case 1: // criar safe note (mandar para um form)
+                case "1": // criar safe note (mandar para um form)
                     SafeNoteForm safeNoteForm = new SafeNoteForm();
                     SafeNote safeNoteCreated = safeNoteForm.createSafeNoteForm();
 
@@ -69,16 +66,18 @@ public class Main {
                     safeNoteCreated.setUserId(currentUser.getId());
                     safeNoteService.save(safeNoteCreated);
                     break;
-                case 2: // visualizar as safe notes
+                case "2": // visualizar as safe notes
                     List<SafeNote> byUserId = safeNoteService.findByUserId(currentUser.getId());
                     for (SafeNote sn : byUserId) {
                         System.out.println(sn);
                     }
                     break;
-                case 3:
+                case "3":
+                    isLog = false;
+                    System.out.println("\n\n\n\n\n\n");
                     break;
-                case 4:
-                    break;
+                case "4":
+                    System.exit(0);
                 default:
                     System.out.println("Opção inválida");
                     break;
