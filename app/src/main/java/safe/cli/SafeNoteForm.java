@@ -26,7 +26,7 @@ public class SafeNoteForm {
 
         System.out.print("Criptografado [0 não (padrão) | 1 sim]: ");
         boolean isEncrypted = false;
-        if (input.next().trim().equals("1")) { isEncrypted = true; }
+        if (input.nextLine().trim().equals("1")) { isEncrypted = true; }
 
         SafeNote safeNote = new SafeNote(title.trim(), content.trim(), tags.trim(), type.trim(), isEncrypted);
         safeNote.setCreatedAt(createdAt);
