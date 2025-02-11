@@ -12,6 +12,7 @@ import safe.service.SafeNoteService;
 import safe.service.UserService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Main {
@@ -20,7 +21,7 @@ public class Main {
         User user2 = new User(2, "zzz@gmail.com", "123");
 
         boolean isLog = false;
-        String userLogged = null;
+        User currentUser = null;
 
         Scanner input = new Scanner(System.in);
         UserRepository userRepository = new UserRepositoryImpl();
@@ -42,8 +43,11 @@ public class Main {
                 String password = input.next();
 
                 if (userService.loginIsValid(email, password)) {
-                    userLogged = email;
                     isLog = true;
+
+                    currentUser = userService.findByEmail(email).get();
+
+
                     break;
                 }
 
@@ -51,7 +55,7 @@ public class Main {
             }
 
             // caso logado
-            System.out.println("\n\n\n\n\n\n\n\nOlá! " + userLogged + "");
+            System.out.println("\n\n\n\n\n\n\n\nOlá! " + currentUser.getEmail() + "");
             MenuCLI.mainMenu();
             int mainMenuOpt = input.nextInt();
 
@@ -60,14 +64,13 @@ public class Main {
                 case 1: // criar safe note (mandar para um form)
                     SafeNoteForm safeNoteForm = new SafeNoteForm();
                     SafeNote safeNoteCreated = safeNoteForm.createSafeNoteForm();
+
                     // setar user que criou a safe note
-                    User user = userService.findByEmail(userLogged).get(); // quem ta logado
-                    safeNoteCreated.setUserId(user.getId());
+                    safeNoteCreated.setUserId(currentUser.getId());
                     safeNoteService.save(safeNoteCreated);
                     break;
                 case 2: // visualizar as safe notes
-                    user = userService.findByEmail(userLogged).get();
-                    List<SafeNote> byUserId = safeNoteService.findByUserId(user.getId());
+                    List<SafeNote> byUserId = safeNoteService.findByUserId(currentUser.getId());
                     for (SafeNote sn : byUserId) {
                         System.out.println(sn);
                     }
