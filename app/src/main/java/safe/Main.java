@@ -76,20 +76,7 @@ public class Main {
                 case "3": // delete
                     List<SafeNote> allSafeNotes = safeNoteService.findByUserId(currentUser.getId());
 
-                    clearConsole();
-
-                    for (int i=0; i<allSafeNotes.size(); i++) {
-                        System.out.println("[" + (i+1) + "] " + allSafeNotes.get(i).getTitle());
-                    }
-
-                    int deleteOpt = 0;
-                    while (deleteOpt <= 0 || deleteOpt > allSafeNotes.size()) {
-                        System.out.print("Selecione uma nota para deletar: ");
-                        deleteOpt = input.nextInt();
-                        input.nextLine();
-                    }
-
-                    SafeNote snToDelete = allSafeNotes.get(deleteOpt - 1);
+                    SafeNote snToDelete = safeNoteService.selectOne(allSafeNotes);
                     safeNoteService.deleteById(snToDelete.getId());
 
                     System.out.println("Safe note '" + snToDelete.getTitle() + "' deletada");
@@ -98,7 +85,7 @@ public class Main {
                     break;
                 case "5": // change acoount
                     isLog = false;
-                    clearConsole();
+                    MenuCLI.clearConsole();
                     break;
                 case "6": // exit
                     System.exit(0);
@@ -109,10 +96,6 @@ public class Main {
         }
     }
 
-    private static void clearConsole() {
-        for (int i=0; i<30; i++) {
-            System.out.println();
-        }
-    }
+
 
 }
