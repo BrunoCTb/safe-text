@@ -30,4 +30,7 @@ public class SafeNoteService {
         return safeNoteRepository.findByUserId(userId);
     }
 
+    public void deleteById(Integer id) {
+//        safeNoteRepository.deleteById(id);
+    }
 }

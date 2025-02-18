@@ -52,7 +52,8 @@ public class Main {
             }
 
             // caso logado
-            System.out.println("\n\n\n\n\n\nOlá! " + currentUser.getEmail() + "");
+//            clearConsole();
+            System.out.println("\nOlá! " + currentUser.getEmail());
             MenuCLI.mainMenu();
             String mainMenuOpt = input.nextLine();
 
@@ -72,11 +73,34 @@ public class Main {
                         System.out.println(sn);
                     }
                     break;
-                case "3":
-                    isLog = false;
-                    System.out.println("\n\n\n\n\n\n");
+                case "3": // delete
+                    List<SafeNote> allSafeNotes = safeNoteService.findByUserId(currentUser.getId());
+
+                    clearConsole();
+
+                    for (int i=0; i<allSafeNotes.size(); i++) {
+                        System.out.println("[" + (i+1) + "] " + allSafeNotes.get(i).getTitle());
+                    }
+
+                    int deleteOpt = 0;
+                    while (deleteOpt <= 0 || deleteOpt > allSafeNotes.size()) {
+                        System.out.print("Selecione uma nota para deletar: ");
+                        deleteOpt = input.nextInt();
+                        input.nextLine();
+                    }
+
+                    SafeNote snToDelete = allSafeNotes.get(deleteOpt - 1);
+                    safeNoteService.deleteById(snToDelete.getId());
+
+                    System.out.println("Safe note '" + snToDelete.getTitle() + "' deletada");
                     break;
-                case "4":
+                case "4": // update
+                    break;
+                case "5": // change acoount
+                    isLog = false;
+                    clearConsole();
+                    break;
+                case "6": // exit
                     System.exit(0);
                 default:
                     System.out.println("Opção inválida");
@@ -84,4 +108,11 @@ public class Main {
             }
         }
     }
+
+    private static void clearConsole() {
+        for (int i=0; i<30; i++) {
+            System.out.println();
+        }
+    }
+
 }

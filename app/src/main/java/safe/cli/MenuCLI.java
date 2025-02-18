@@ -7,11 +7,13 @@ public class MenuCLI {
 
     public static void mainMenu() {
         System.out.print("""
-                <==== Menu principal ====>
+                \n<==== Menu principal ====>
                 [1] Criar Safe Note
                 [2] Visualizar minhas Safe Notes
-                [3] Trocar de conta
-                [4] Sair da aplicação
+                [3] Deletar uma Safe Note
+                [4] Atualizar Uma safe Note
+                [5] Trocar de conta
+                [6] Sair da aplicação
                 >>\s""");
     }
 

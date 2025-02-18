@@ -15,4 +15,6 @@ public interface SafeNoteRepository {
 
     List<SafeNote> findByUserId(Integer userId);
 
+    void deleteById(Integer id);
+
 }

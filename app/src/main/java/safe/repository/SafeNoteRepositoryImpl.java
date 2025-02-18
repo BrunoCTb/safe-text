@@ -104,6 +104,18 @@ public class SafeNoteRepositoryImpl implements SafeNoteRepository{
         return safeNotes;
     }
 
+    @Override
+    public void deleteById(Integer id) {
+        String sql = "DELETE FROM safe_note WHERE id=" + id;
+
+        try (Connection connection = SqliteConfig.connection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private SafeNote getSafeNoteFromResultSet(ResultSet safeNoteData) throws SQLException {
         Integer id = safeNoteData.getInt("id");
         String title = safeNoteData.getString("title");
@@ -115,10 +127,8 @@ public class SafeNoteRepositoryImpl implements SafeNoteRepository{
         boolean isEncrypted = safeNoteData.getBoolean("isEncrypted");
         Integer userId = safeNoteData.getInt("user_id");
 
-        SafeNote safeNote = new SafeNote(id, title, content, createdAt, updatedAt,
+        return new SafeNote(id, title, content, createdAt, updatedAt,
                 tags, type, isEncrypted, userId);
-
-        return safeNote;
     }
 
 }
