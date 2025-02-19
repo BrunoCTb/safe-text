@@ -60,8 +60,8 @@ public class Main {
             // opcoes do menu principal
             switch (mainMenuOpt) {
                 case "1": // criar safe note (mandar para um form)
-                    SafeNoteForm safeNoteForm = new SafeNoteForm();
-                    SafeNote safeNoteCreated = safeNoteForm.createSafeNoteForm();
+                    SafeNoteForm createSafeNoteForm = new SafeNoteForm();
+                    SafeNote safeNoteCreated = createSafeNoteForm.createSafeNoteForm();
 
                     // setar user que criou a safe note
                     safeNoteCreated.setUserId(currentUser.getId());
@@ -74,14 +74,22 @@ public class Main {
                     }
                     break;
                 case "3": // delete
-                    List<SafeNote> allSafeNotes = safeNoteService.findByUserId(currentUser.getId());
+                    List<SafeNote> safeNotesToDelete = safeNoteService.findByUserId(currentUser.getId());
 
-                    SafeNote snToDelete = safeNoteService.selectOne(allSafeNotes);
+                    SafeNote snToDelete = safeNoteService.selectOne(safeNotesToDelete);
                     safeNoteService.deleteById(snToDelete.getId());
 
                     System.out.println("Safe note '" + snToDelete.getTitle() + "' deletada");
                     break;
                 case "4": // update
+                    List<SafeNote> safeNotesToUpdate = safeNoteService.findByUserId(currentUser.getId());
+
+                    SafeNote sn = safeNoteService.selectOne(safeNotesToUpdate);
+
+                    SafeNoteForm updateSafeNoteForm = new SafeNoteForm();
+                    SafeNote snToUpdate = updateSafeNoteForm.updateSafeNoteForm(sn);
+
+                    safeNoteService.update(snToUpdate);
                     break;
                 case "5": // change acoount
                     isLog = false;

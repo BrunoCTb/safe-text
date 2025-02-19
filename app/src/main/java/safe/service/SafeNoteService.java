@@ -36,6 +36,10 @@ public class SafeNoteService {
         safeNoteRepository.deleteById(id);
     }
 
+    public void update(SafeNote safeNote) {
+        safeNoteRepository.update(safeNote);
+    }
+
     // solicita uma lista de 'Safe note' que mostra todos os itens
     // e retorna a opção com o index que foi selecionado
     public SafeNote selectOne(List<SafeNote> allSafeNotes) {
@@ -49,7 +53,7 @@ public class SafeNoteService {
 
         int opc = 0;
         while (opc <= 0 || opc > allSafeNotes.size()) {
-            System.out.print("Selecione uma nota para deletar: ");
+            System.out.print("Selecione uma safe note: ");
             opc = input.nextInt();
             input.nextLine();
         }

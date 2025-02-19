@@ -17,4 +17,6 @@ public interface SafeNoteRepository {
 
     void deleteById(Integer id);
 
+    public void update(SafeNote safeNote);
+
 }

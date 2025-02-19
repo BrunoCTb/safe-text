@@ -111,6 +111,36 @@ public class SafeNoteRepositoryImpl implements SafeNoteRepository{
         try (Connection connection = SqliteConfig.connection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void update(SafeNote safeNote) {
+        // titulo, content, tags, type, isEncrypted
+        String sql = """
+                UPDATE safe_note
+                SET title = ?, content = ?, tags = ?, type = ?, isEncrypted = ?
+                WHERE id = ?
+                """;
+
+        System.out.println("updating... " + safeNote);
+
+        try (Connection connection = SqliteConfig.connection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, safeNote.getTitle());
+            preparedStatement.setString(2, safeNote.getContent());
+            preparedStatement.setString(3, safeNote.getTags());
+            preparedStatement.setString(4, safeNote.getType());
+            preparedStatement.setBoolean(5, safeNote.isEncrypted());
+
+            preparedStatement.setInt(6, safeNote.getId());
+
+            preparedStatement.executeUpdate();
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
